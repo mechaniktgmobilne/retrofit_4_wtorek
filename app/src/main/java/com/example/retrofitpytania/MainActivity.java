@@ -3,6 +3,10 @@ package com.example.retrofitpytania;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.RadioButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
@@ -15,10 +19,23 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
     List<Pytanie> pytania;
+    TextView textViewTrescPytania;
+    RadioButton radioButtonA;
+    RadioButton radioButtonB;
+    RadioButton radioButtonC;
+    Button buttonDalej;
+    int licznik =0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        textViewTrescPytania = findViewById(R.id.textViewTrescPytania);
+        radioButtonA = findViewById(R.id.radioButton);
+        radioButtonB = findViewById(R.id.radioButton2);
+        radioButtonC = findViewById(R.id.radioButton3);
+        buttonDalej = findViewById(R.id.button);
+
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://my-json-server.typicode.com/mechaniktgmobilne/retrofit_pytania/")
                 .addConverterFactory(GsonConverterFactory.create())
@@ -39,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(MainActivity.this,
                                 pytania.get(0).getTrescPytania()
                                 , Toast.LENGTH_SHORT).show();
+                        wypelnijPytania(0);
                     }
 
                     @Override
@@ -50,5 +68,21 @@ public class MainActivity extends AppCompatActivity {
                 }
         );
 
+        buttonDalej.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        licznik++;
+                        wypelnijPytania(licznik);
+                    }
+                }
+        );
+
+    }
+    private void wypelnijPytania(int ktore){
+        textViewTrescPytania.setText(pytania.get(ktore).getTrescPytania());
+        radioButtonA.setText(pytania.get(ktore).getOdpa());
+        radioButtonB.setText(pytania.get(ktore).getOdpb());
+        radioButtonC.setText(pytania.get(ktore).getOdpc());
     }
 }
