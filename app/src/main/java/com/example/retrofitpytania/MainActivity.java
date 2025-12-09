@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +24,8 @@ public class MainActivity extends AppCompatActivity {
     RadioButton radioButtonA;
     RadioButton radioButtonB;
     RadioButton radioButtonC;
+    RadioGroup radioGroup;
+
     Button buttonDalej;
     int licznik =0;
     @Override
@@ -35,6 +38,14 @@ public class MainActivity extends AppCompatActivity {
         radioButtonB = findViewById(R.id.radioButton2);
         radioButtonC = findViewById(R.id.radioButton3);
         buttonDalej = findViewById(R.id.button);
+        radioGroup = findViewById(R.id.radioGroup);
+      /*  int idRadio[] = new int[]{R.id.radioButton,
+                R.id.radioButton2,
+                R.id.radioButton3};
+        int poprawna = 1;
+        int zaznaczona = radioGroup.getCheckedRadioButtonId();
+        if(idRadio[poprawna] == zaznaczona)
+        */
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://my-json-server.typicode.com/mechaniktgmobilne/retrofit_pytania/")
@@ -72,8 +83,16 @@ public class MainActivity extends AppCompatActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        licznik++;
-                        wypelnijPytania(licznik);
+
+                        //TODO: sprawdzić poprawność odpowiedzi, liczyć punkty
+                        if(licznik<pytania.size()-1) {
+                            licznik++;
+                            wypelnijPytania(licznik);
+                        }
+                        else{
+                            //jak dopisać punkty do json
+
+                        }
                     }
                 }
         );
@@ -84,5 +103,8 @@ public class MainActivity extends AppCompatActivity {
         radioButtonA.setText(pytania.get(ktore).getOdpa());
         radioButtonB.setText(pytania.get(ktore).getOdpb());
         radioButtonC.setText(pytania.get(ktore).getOdpc());
+
     }
+
+
 }
